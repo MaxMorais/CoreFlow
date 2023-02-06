@@ -163,154 +163,116 @@ export const FLOWCHART = readable({
 		}
 	}
 });
-export const DEMO = readable({
-	variables: [
-		{
-			name: 'expiration_days',
-			label: 'Days until expiration',
-			fieldtype: 'Number'
-		},
-		{
-			name: 'current_month',
-			label: 'Current Month',
-			fieldtype: 'String'
-		},
-		{
-			name: 'goes_well_with',
-			label: 'Goes Well With',
-			field_type: 'String',
-			options: [
-				'Eggnog',
-				'Cookies',
-				'Beef Jerkey'
-			]
-		}
-	],
-	actions: [
-		{
-			name: 'put_on_sale',
-			label: 'Put on Sale',
-			params: [
-				{
-					name: 'sale_percentage',
-					label: 'Sales %',
-					type: 'Number' 
-				}
-			]
-		},
-		{
-			name: 'order_more',
-			label: 'Order More',
-			params: [
-				{
-					name: 'qty_to_order',
-					label: 'Qty to Order',
-					type: 'Number'
-				}
-			]
-		}
-	]
-});
 
-export const DYNAMIC = 'DYNAMIC';
-export const BASE_OPERATORS = readable(['All', 'Any', 'None']);
+export const classPrefix = writable('rule-');
+export const listText = writable('of the following are true');
+export const baseOperators = writable(['all', 'any', 'none']);
+export const listOperators = writable([
+	{value: 'all', label: 'All'}, 
+	{value: 'any', label: 'Any'},
+	{value: 'none', label: 'None'}
+]);
 
-const PVT_TYPE_OPERATORS = {
+const DEFAULT_FIELD = {label: '', value: ''}
+
+export const defaultField = writable(DEFAULT_FIELD);
+export const defaultOperator = writable(DEFAULT_FIELD);
+
+const TYPE_OPERATORS = {
 	'String': {
-		'equal to': DYNAMIC,
-		'not equal to': DYNAMIC,
-		'start with': DYNAMIC,
-		'ends with': DYNAMIC,
-		'constains': DYNAMIC,
-		'match regex': DYNAMIC,
+		'equal to': 'text',
+		'not equal to': 'text',
+		'start with': 'text',
+		'ends with': 'text',
+		'constains': 'text',
+		'match regex': 'text',
 		'is': [
-			,
-			'Upper',
-			'Lower',
-			'Digits',
-			'Alpha',
-			'Alpha Numeric',
-			'Space',
-			'Empty'
+			DEFAULT_FIELD,
+			{value: 'String.is.upper', label: 'Upper'},
+			{value: 'String.is.lower', label: 'Lower'},
+			{value: 'String.is.digits', label: 'Digits'},
+			{value: 'String.is.alpha', label: 'Alpha'},
+			{value: 'String.is.alphaNumeric', label: 'Alpha Numeric'},
+			{value: 'String.is.space', label: 'Space'},
+			{value: 'String.is.empty', label: 'Empty'},
+			{value: 'String.is.emptyOrSpaces', label: 'Empty or Spaces'}
 		],
 	},
-	'Number': {
-		'equal to': DYNAMIC,
-		'greather than': DYNAMIC,
-		'greather or equal to': DYNAMIC,
-		'less then': DYNAMIC,
-		'less or equal to': DYNAMIC,
+	'number': {
+		'equal to': 'number',
+		'greather than': 'number',
+		'greather or equal to': 'number',
+		'less then': 'number',
+		'less or equal to': 'number',
 		'is': [
-			,
-			'Empty',
-			'Zero',
-			'Empty or Zero'
+			DEFAULT_FIELD,
+			{value: 'number.is.empty', label: 'Empty'},
+			{value: 'number.is.zero', label: 'Zero'},
+			{value: 'number.is.emptyOrZero', label: 'Empty or Zero'}
 		]
 	},
 	'Date': {
-		'equal to': DYNAMIC,
-		'day equal to': 'Number',
-		'month equal to': 'Number',
-		'year equal to': 'Number',
-		'hours equal to': 'Number',
-		'minutes equal to': 'Number',
-		'seconds equal to': 'Number',
-		'not equal to': DYNAMIC,
-		'day not equal to': 'Number',
-		'month not equal to': 'Number',
-		'year not equal to': 'Number',
-		'hours not equal to': 'Number',
-		'minutes not equal to': 'Number',
-		'seconds not equal to': 'Number',
-		'greather then': DYNAMIC,
-		'day greather then': 'Number',
-		'month greather then': 'Number',
-		'year greather then': 'Number',
-		'hours greather then': 'Number',
-		'minutes greather then': 'Number',
-		'seconds greather then': 'Number',
-		'greather or equal to': DYNAMIC,
-		'day greather or equal to': 'Number',
-		'month greather or equal to': 'Number',
-		'year greather or equal to': 'Number',
-		'hours greather or equal to': 'Number',
-		'minutes greather or equal to': 'Number',
-		'seconds greather or equal to': 'Number',
-		'less than': DYNAMIC,
-		'day less than': 'Number',
-		'month less than': 'Number',
-		'year less than': 'Number',
-		'hours less than': 'Number',
-		'minutes less than': 'Number',
-		'seconds less than': 'Number',
-		'less or equal to': DYNAMIC,
-		'day less or equal to': 'Number',
-		'month less or equal to': 'Number',
-		'year less or equal to': 'Number',
-		'hours less or equal to': 'Number',
-		'minutes less or equal to': 'Number',
-		'seconds less or equal to': 'Number',
+		'equal to': 'date',
+		'day equal to': 'number',
+		'month equal to': 'number',
+		'year equal to': 'number',
+		'hours equal to': 'number',
+		'minutes equal to': 'number',
+		'seconds equal to': 'number',
+		'not equal to': 'date',
+		'day not equal to': 'number',
+		'month not equal to': 'number',
+		'year not equal to': 'number',
+		'hours not equal to': 'number',
+		'minutes not equal to': 'number',
+		'seconds not equal to': 'number',
+		'greather then': 'date',
+		'day greather then': 'number',
+		'month greather then': 'number',
+		'year greather then': 'number',
+		'hours greather then': 'number',
+		'minutes greather then': 'number',
+		'seconds greather then': 'number',
+		'greather or equal to': 'date',
+		'day greather or equal to': 'number',
+		'month greather or equal to': 'number',
+		'year greather or equal to': 'number',
+		'hours greather or equal to': 'number',
+		'minutes greather or equal to': 'number',
+		'seconds greather or equal to': 'number',
+		'less than': 'date',
+		'day less than': 'number',
+		'month less than': 'number',
+		'year less than': 'number',
+		'hours less than': 'number',
+		'minutes less than': 'number',
+		'seconds less than': 'number',
+		'less or equal to': 'date',
+		'day less or equal to': 'number',
+		'month less or equal to': 'number',
+		'year less or equal to': 'number',
+		'hours less or equal to': 'number',
+		'minutes less or equal to': 'number',
+		'seconds less or equal to': 'number',
 		'is': [
-			,
-			'Empty',
-			'Today',
-			'Tomorrow',
-			'Yesterday'
+			DEFAULT_FIELD,
+			{value: 'Date.is.empty', label: 'Empty'},
+			{value: 'Date.is.today', label: 'Today'},
+			{value: 'Date.is.tomorrow', label: 'Tomorrow'},
+			{value: 'Date.is.yeasterday', label: 'Yesterday'}
 		]
 	},
 	'Boolean': {
 		'is': [
-			,
-			'True',
-			'False'
+			DEFAULT_FIELD,
+			{value: 'Boolean.is.true', label: 'True'},
+			{value: 'Boolean.is.false', label: 'False'}
 		]
 	},
 	'Array': {},
 	'Object': {}
 }
 
-
-export const TYPE_OPERATORS = readable(PVT_TYPE_OPERATORS);
 
 let PVT_NORMALIZED_OPERATORS = [];
 let PVT_VARIABLE_TYPE_OPERATORS = {};
@@ -373,58 +335,63 @@ export const LOGICAL_OPERATORS = readable({
 	"String.is.Alpha": "(/^[^0-9.]+$/.test(ctx.{0}||''))",
 	"String.is.Alpha Numeric": "(/^[*.]+$/).test(ctx.{0}||'')",
 	"String.is.Space": "(/^[ ]+$/.test(ctx.{0}||''))",
-	// NUMBER
-	"Number.equal to": '(ctx.{0} == {1})',
-	"Number.greather than": '(ctx.{0} > {1})',
-	"Number.greather or equal to": '(ctx.{0} >= {1})',
-	"Number.less than": '(ctx.{0} < {1})',
-	"Number.less or equal to": '(ctx.{0} <= {1})',
-	"Number.is.Empty": "(in_list([undefined, null, ''], ctx.{0}))",
-	"Number.is.Zero": "(in_list([0, '0'], ctx.{0})",
-	"Number.is.Empty or Zero": "(in_list([undefined, null, '', '0', 0], ctx.{0}))",
-	// DATE AND TIME (Using Luxon)
-	"Date.equal to": "(DateTime.fromISO(ctx.{0}).toMillis() === DateTime.fromISO('{1}').toMillis())",
-	"Date.day equal to": "(DateTime.fromISO(ctx.{0}).format('d') == '{1}')",
-	"Date.month equal to": "(DateTime.fromISO(ctx.{0}).format('m') == '{1}')",
-	"Date.year equal to": "(DateTime.fromISO(ctx.{0}).format('y') == '{1}')",
-	"Date.seconds equal to": "(DateTime.fromISO(ctx.{0}).format('s') == '{1}')",
-	"Date.minutes equal to": "(DateTime.fromISO(ctx.{0}).format('m') == '{1}')",
-	"Date.hours equal to": "(DateTime.fromISO(ctx.{0}).format('H') == '{1}')",
-	"Date.not equal to": "(DateTime.fromISO(ctx.{0}).toMillis() !==   DateTime.fromISO('{1}').toMillis())",
-  	"Date.day not equal to": "(DateTime.fromISO(ctx.{0}).format('d') != '{1}')",
-  	"Date.month not equal to": "(DateTime.fromISO(ctx.{0}).format('m') != '{1}')",
-  	"Date.year not equal to": "(DateTime.fromISO(ctx.{0}).format('y') != '{1}')",
-	"Date.seconds not equal to": "(DateTime.fromISO(ctx.{0}).format('s') != '{1}')",
-	"Date.minutes not equal to": "(DateTime.fromISO(ctx.{0}).format('m') != '{1}')",
-	"Date.hours not equal to": "(DateTime.fromISO(ctx.{0}).format('H') != '{1}')",
-	"Date.greather then": "(DateTime.fromISO(ctx.{0}).toMillis() > DateTime.fromISO('{1}').toMillis())",
-  	"Date.day greather than": "(DateTime.fromISO(ctx.{0}).format('d') > '{1}')",
-  	"Date.month greather than": "(DateTime.fromISO(ctx.{0}).format('m') > '{1}')",
-  	"Date.year greather than": "(DateTime.fromISO(ctx.{0}).format('y') > '{1}')",
-	"Date.seconds greather than": "(DateTime.fromISO(ctx.{0}).format('s') > '{1}')",
-	"Date.minutes greather than": "(DateTime.fromISO(ctx.{0}).format('m') > '{1}')",
-	"Date.hours greather than": "(DateTime.fromISO(ctx.{0}).format('H') > '{1}')",
-	"Date.greather or equal to": "(DateTime.fromISO(ctx.{0}).toMillis() >= DateTime.fromISO('{1}').toMillis())",
-  	"Date.day greather or equal to": "(DateTime.fromISO(ctx.{0}).format('d') >= '{1}')",
-  	"Date.month greather or equal to": "(DateTime.fromISO(ctx.{0}).format('m') >= '{1}')",
-  	"Date.year greather or equal to": "(DateTime.fromISO(ctx.{0}).format('y') >= '{1}')",
-	"Date.seconds greather or equal to": "(DateTime.fromISO(ctx.{0}).format('s') >= '{1}')",
-	"Date.minutes greather or equal to": "(DateTime.fromISO(ctx.{0}).format('m') >= '{1}')",
-	"Date.hours greather or equal to": "(DateTime.fromISO(ctx.{0}).format('H') >= '{1}')",
-	"Date.less than": "(DateTime.fromISO(ctx.{0}).toMillis() < DateTime.fromISO('{1}').toMillis())",
-  	"Date.day less than": "(DateTime.fromISO(ctx.{0}).format('d') < '{1}')",
-  	"Date.month less than": "(DateTime.fromISO(ctx.{0}).format('m') < '{1}')",
-  	"Date.year less than": "(DateTime.fromISO(ctx.{0}).format('y') < '{1}')",
-	"Date.seconds less than": "(DateTime.fromISO(ctx.{0}).format('s') < '{1}')",
-	"Date.minutes less than": "(DateTime.fromISO(ctx.{0}).format('m') < '{1}')",
-	"Date.hours less than": "(DateTime.fromISO(ctx.{0}).format('H') < '{1}')",
-	"Date.less or equal to": "(DateTime.fromISO(ctx.{0}).toMillis() <= DateTime.fromISO('{1}').toMillis())",
-  	"Date.day less or equal to": "(DateTime.fromISO(ctx.{0}).format('d') <= '{1}')",
-  	"Date.month less or equal to": "(DateTime.fromISO(ctx.{0}).format('m') <= '{1}')",
-  	"Date.year less or equal to": "(DateTime.fromISO(ctx.{0}).format('y') <= '{1}')",
-	"Date.seconds less or equal to": "(DateTime.fromISO(ctx.{0}).format('s') <= '{1}')",
-	"Date.minutes less or equal to": "(DateTime.fromISO(ctx.{0}).format('m') <= '{1}')",
-	"Date.hours less or equal to": "(DateTime.fromISO(ctx.{0}).format('H') <= '{1}')",
+	// number
+	"number.equal to": '(ctx.{0} == {1})',
+	"number.greather than": '(ctx.{0} > {1})',
+	"number.greather or equal to": '(ctx.{0} >= {1})',
+	"number.less than": '(ctx.{0} < {1})',
+	"number.less or equal to": '(ctx.{0} <= {1})',
+	"number.is.Empty": "(in_list([undefined, null, ''], ctx.{0}))",
+	"number.is.Zero": "(in_list([0, '0'], ctx.{0})",
+	"number.is.Empty or Zero": "(in_list([undefined, null, '', '0', 0], ctx.{0}))",
+	// DATE AND TIME 
+	"Date.equal to": "(Date.parse(ctx.{0}) === Date.parse('{1}'))",
+	"Date.day equal to": "(Date.parse(ctx.{0}).getDay() == parseInt('{1}'))",
+	"Date.month equal to": "(Date.parse(ctx.{0}).getMonth() == parseInt('{1}'))",
+	"Date.year equal to": "(Date.parse(ctx.{0}).getFullYear() == parseInt('{1}'))",
+	"Date.seconds equal to": "(Date.parse(ctx.{0}).getSeconds() == parseInt('{1}'))",
+	"Date.minutes equal to": "(Date.parse(ctx.{0}).getMinutes() == parseInt('{1}'))",
+	"Date.hours equal to": "(Date.parse(ctx.{0}).getHours() == parseInt('{1}'))",
+
+	"Date.not equal to": "(Date.parse(ctx.{0}) !== Date.parse('{1}'))",
+	"Date.day not equal to": "(Date.parse(ctx.{0}).getDay() !== parseInt('{1}'))",
+	"Date.month not equal to": "(Date.parse(ctx.{0}).getMonth() !== parseInt('{1}'))",
+	"Date.year not equal to": "(Date.parse(ctx.{0}).getFullYear() !== parseInt('{1}'))",
+	"Date.seconds not equal to": "(Date.parse(ctx.{0}).getSeconds() !== parseInt('{1}'))",
+	"Date.minutes not equal to": "(Date.parse(ctx.{0}).getMinutes() !== parseInt('{1}'))",
+	"Date.hours not equal to": "(Date.parse(ctx.{0}).getHours() !== parseInt('{1}'))",
+
+	"Date.grether than": "(Date.parse(ctx.{0}) > Date.parse('{1}'))",
+	"Date.day grether than": "(Date.parse(ctx.{0}).getDay() > parseInt('{1}'))",
+	"Date.month grether than": "(Date.parse(ctx.{0}).getMonth() > parseInt('{1}'))",
+	"Date.year grether than": "(Date.parse(ctx.{0}).getFullYear() > parseInt('{1}'))",
+	"Date.seconds grether than": "(Date.parse(ctx.{0}).getSeconds() > parseInt('{1}'))",
+	"Date.minutes grether than": "(Date.parse(ctx.{0}).getMinutes() > parseInt('{1}'))",
+	"Date.hours grether than": "(Date.parse(ctx.{0}).getHours() > parseInt('{1}'))",
+
+	"Date.greather or equal to": "(Date.parse(ctx.{0}) >= Date.parse('{1}'))",
+	"Date.day greather or equal to": "(Date.parse(ctx.{0}).getDay() >= parseInt('{1}'))",
+	"Date.month greather or equal to": "(Date.parse(ctx.{0}).getMonth() >= parseInt('{1}'))",
+	"Date.year greather or equal to": "(Date.parse(ctx.{0}).getFullYear() >= parseInt('{1}'))",
+	"Date.seconds greather or equal to": "(Date.parse(ctx.{0}).getSeconds() >= parseInt('{1}'))",
+	"Date.minutes greather or equal to": "(Date.parse(ctx.{0}).getMinutes() >= parseInt('{1}'))",
+	"Date.hours greather or equal to": "(Date.parse(ctx.{0}).getHours() >= parseInt('{1}'))",
+
+	"Date.less than": "(Date.parse(ctx.{0}) < Date.parse('{1}'))",
+	"Date.day less than": "(Date.parse(ctx.{0}).getDay() < parseInt('{1}'))",
+	"Date.month less than": "(Date.parse(ctx.{0}).getMonth() < parseInt('{1}'))",
+	"Date.year less than": "(Date.parse(ctx.{0}).getFullYear() < parseInt('{1}'))",
+	"Date.seconds less than": "(Date.parse(ctx.{0}).getSeconds() < parseInt('{1}'))",
+	"Date.minutes less than": "(Date.parse(ctx.{0}).getMinutes() < parseInt('{1}'))",
+	"Date.hours less than": "(Date.parse(ctx.{0}).getHours() < parseInt('{1}'))",
+
+	"Date.less or equal to": "(Date.parse(ctx.{0}) <= Date.parse('{1}'))",
+	"Date.day less or equal to": "(Date.parse(ctx.{0}).getDay() <= parseInt('{1}'))",
+	"Date.month less or equal to": "(Date.parse(ctx.{0}).getMonth() <= parseInt('{1}'))",
+	"Date.year less or equal to": "(Date.parse(ctx.{0}).getFullYear() <= parseInt('{1}'))",
+	"Date.seconds less or equal to": "(Date.parse(ctx.{0}).getSeconds() <= parseInt('{1}'))",
+	"Date.minutes less or equal to": "(Date.parse(ctx.{0}).getMinutes() <= parseInt('{1}'))",
+	"Date.hours less or equal to": "(Date.parse(ctx.{0}).getHours() <= parseInt('{1}'))",
 	// Boolean
 	"Check.is.True": '(!!ctx.{0})',
 	"Check.is.False": '(!!!ctx.{0})'
